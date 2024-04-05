@@ -544,14 +544,10 @@ ul.card-listing {
   border-radius: 100%;
 }
 
-.invert-mode {
-  filter: invert(100%);
-}
 
 .invert-mode .sellers-box ul li:first-child img {
   filter: invert(100%);
 }
-
 
 .sellers-box .border-box {
   padding-left: 3rem;

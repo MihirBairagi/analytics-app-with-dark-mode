@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
+import { DarkModeProvider, useDarkMode } from './DarkModeContext';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button'; 
 import App from './pages/App';
 
-
 const ToggleInvertButton = () => {
-  const [invert, setInvert] = useState(false);
+  const { darkMode, toggleDarkMode } = useDarkMode();
 
-  useEffect(() => {
-    if (invert) {
+  React.useEffect(() => {
+    document.body.style.filter = darkMode ? 'invert(1)' : 'invert(0)';
+    if (darkMode) {
       document.body.classList.add("invert-mode");
     } else {
       document.body.classList.remove("invert-mode");
     }
-  }, [invert]);
+  }, [darkMode]);
 
   return (
     <Button
@@ -25,25 +26,26 @@ const ToggleInvertButton = () => {
         right: 20,
         zIndex: 1000,
       }}
-      onClick={() => setInvert(!invert)}
+      onClick={toggleDarkMode}
       variant="contained"
     >
-      {invert ? 'Light Mode' : 'Dark Mode'}
+      {darkMode ? 'Light Mode' : 'Dark Mode'}
     </Button>
   );
 };
 
-
 ReactDOM.render(
   <React.StrictMode>
-    <CssBaseline />
-    <Box sx={{ display: 'flex' }} className='container'>
-      <ToggleInvertButton /> {/* Render the toggle button */}
-      <nav>
-        <img className='w-100' src={require("./assets/img/nav.png")} alt="" />
-      </nav>
-      <App />
-    </Box>
+    <DarkModeProvider>
+      <CssBaseline />
+      <Box sx={{ display: 'flex' }} className='container'>
+        <ToggleInvertButton />
+        <nav>
+          <img className='w-100' src={require("./assets/img/nav.png")} alt="" />
+        </nav>
+        <App />
+      </Box>
+    </DarkModeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
